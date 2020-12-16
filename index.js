@@ -39,17 +39,24 @@ function Airplane(name) {
           + It should return a string with `name` and `age`. Example: "Mary, 50"
   */
   
- function Person() {
-    
+ function Person(name, age) {
+  this.name = name;
+  this.age = age;
+  this.stomach = [];
+}
+Person.prototype.eat = function(food){
+  if(this.stomach.length < 10){
+    this.stomach.push(food);
   }
+}
+Person.prototype.poop = function(){
+  this.stomach = [];
+}
+Person.prototype.toString = function(){
+  return `${this.name}, ${this.age}`;
+}
  
- 
-
-  
-  
-  
-  
-  /*
+ /*
     TASK 2
       - Write a Car constructor that initializes `model` and `milesPerGallon` from arguments.
       - All instances built with Car:
@@ -63,9 +70,27 @@ function Airplane(name) {
           + The `drive` method should return a string "I ran out of fuel at x miles!" x being `odometer`.
   */
   
- function Car() {
-    
+ function Car(model, milesPerGallon) {
+    this.model = model;
+    this.milesPerGallon = milesPerGallon;
+    this.tank = 0;
+    this.odometer = 0;
+    this.totalDistance = this.milesPerGallon * this.tank // stretch
   }
+  Car.prototype.fill = function(gallons){
+    this.tank = this.tank += gallons;
+  }
+  Car.prototype.drive= function(distance){ // stretch
+    this.odometer + distance;
+    this.tank - distance/this.milesPerGallon;
+    if (this.tank === 0){
+      return `I ran out of fuel at ${this.odometer} miles!`
+    }
+  }
+  const carOne = new Car ('GTI MK1', 10)
+  carOne.fill(10);
+  carOne.drive(100);
+  console.log(carOne.tank)
   
   
   /*
@@ -75,18 +100,24 @@ function Airplane(name) {
       - Besides the methods on Person.prototype, babies have the ability to `.play()`:
           + Should return a string "Playing with x", x being the favorite toy.
   */
- function Baby() {
-   
+ function Baby(name, age, favoriteToy) {
+   Person.call(this, name, age);
+   this.favoriteToy = favoriteToy;
   }
- 
+ Baby.prototype = Object.create(Person.prototype);
+ Baby.prototype.play = function(){
+   return `Playing with ${this.favoriteToy}`
+ }
+ const babyOne = new Baby('Taylor', 1, 'soccer ball');
+ console.log(babyOne.play());
   
   /* 
     TASK 4
     In your own words explain the four principles for the "this" keyword below:
-    1. 
-    2. 
-    3. 
-    4. 
+    1. global = in global scope, "this" will be global bound unless in strict mode.
+    2. implicit = when function is invoked, "this" will refer to whats left of the dot and only applies to objects.
+    3. explicit = "this" is explicitly defined when using .call, .bind, .apply
+    4. new = the "new" makes a new object and "this" refers to it.
   */
   
   
